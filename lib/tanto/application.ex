@@ -6,10 +6,9 @@ defmodule Tanto.Application do
   use Application
 
   def start(_type, _args) do
-    # List all child processes to be supervised
+    import Supervisor.Spec, warn: false 
     children = [
-      # Starts a worker by calling: Tanto.Worker.start_link(arg)
-      # {Tanto.Worker, arg},
+      supervisor(Tanto.Repo, []) 
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
