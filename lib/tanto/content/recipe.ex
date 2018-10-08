@@ -10,6 +10,9 @@ defmodule Tanto.Content.Recipe do
     field :slug, :string
     field :status, :string
     field :user_id, :integer
+    has_many :recipe_translations, Tanto.Content.RecipeTranslation
+    has_many :comments, Tanto.Content.Comment
+    has_many :cover_images, Tanto.Content.CoverImage
   end
 end
 
