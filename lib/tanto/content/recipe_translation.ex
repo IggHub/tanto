@@ -3,7 +3,7 @@ defmodule Tanto.Content.RecipeTranslation do
 
   schema "recipe_translations" do
     field :lang_code, :string
-    field :status, :text
+    field :status, :string
     belongs_to :recipe, Tanto.Content.Recipe
   end
 end

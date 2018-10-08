@@ -3,6 +3,6 @@ defmodule Tanto.Content.Category do
 
   schema "categories" do
     field :name, :string
-    field :description, :text
+    field :description, :string
   end
 end
