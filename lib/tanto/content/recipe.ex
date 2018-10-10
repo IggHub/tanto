@@ -23,6 +23,7 @@ defmodule Tanto.Content.Recipe do
     recipe
     |> cast(attrs, [:title])
     |> validate_required([:title])
+    |> unique_constraint(:slug)
   end
 end
 
