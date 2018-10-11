@@ -1,7 +1,7 @@
 defmodule Tanto.Content.Comment do
   use Ecto.Schema
   import Ecto.Changeset  
-  alias Tanto.Content.Recipe
+  alias Tanto.Content.{Recipe, Comment}
   
   schema "comments" do
     field :body, :string

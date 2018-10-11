@@ -1,29 +1,33 @@
 defmodule Tanto.Content.Recipe do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Tanto.Content.Recipe
-  alias Tanto.Content.Comment
+  alias Tanto.Content.{Recipe, Comment, CoverImage}
 
   schema "recipes" do
     field :title, :string
     field :body, :string
     field :lang_code, :string
-    field :ingredients, :string
+    embeds_many :ingredients, Ingredient do
+      field :name, :string
+      field :quantity, :string
+    end
     field :servings, :integer
     field :slug, :string
     field :status, :string
     field :user_id, :integer
     has_many :recipe_translations, Tanto.Content.RecipeTranslation
     has_many :comments, Comment
-    has_many :cover_images, Tanto.Content.CoverImage
+    has_one :cover_image, CoverImage 
   
     timestamps()
   end
-  
+ 
+  @doc false 
   def changeset(%Recipe{} = recipe, attrs) do
     recipe
     |> cast(attrs, [:title])
     |> validate_required([:title])
+    |> cast_embed(:ingredients, with: &ingredient_changeset/2)
     |> unique_constraint(:slug)
     |> validate_change(:body, fn(:body, body) ->
       if count_word(body) < 100 do
@@ -32,6 +36,13 @@ defmodule Tanto.Content.Recipe do
         []
       end
     end)
+    |> cast_assoc(:cover_image, required: true)
+  end
+
+  def ingredient_changeset(ingredient, attrs) do
+    ingredient
+    |> cast(attrs, [:name, :quantity])
+    |> validate_required([:name, :quantity])
   end
 
   defp count_word(body) do
