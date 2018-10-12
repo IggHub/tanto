@@ -16,7 +16,7 @@ defmodule Tanto.Content.Recipe do
     field :status, :string
     field :user_id, :integer
     has_many :recipe_translations, Tanto.Content.RecipeTranslation
-    has_many :comments, Comment
+    has_many :comments, Comment, on_delete: :delete_all
     has_one :cover_image, CoverImage 
     # many_to_many :tags, Tag, join_through: "recipe_tagging"
     many_to_many :tags, Tag
