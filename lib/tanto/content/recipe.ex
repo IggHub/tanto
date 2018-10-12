@@ -1,7 +1,7 @@
 defmodule Tanto.Content.Recipe do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Tanto.Content.{Recipe, Comment, CoverImage}
+  alias Tanto.Content.{Recipe, Comment, CoverImage, Tag}
 
   schema "recipes" do
     field :title, :string
@@ -18,6 +18,7 @@ defmodule Tanto.Content.Recipe do
     has_many :recipe_translations, Tanto.Content.RecipeTranslation
     has_many :comments, Comment
     has_one :cover_image, CoverImage 
+    many_to_many :tags, Tag, join_through: "recipe_tagging"
   
     timestamps()
   end
