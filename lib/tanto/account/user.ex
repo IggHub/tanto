@@ -5,6 +5,7 @@ defmodule Tanto.Account.User do
 
   schema "users" do
     field :username, :string 
+    has_one :user_profile, Tanto.Account.UserProfile, on_delete: :delete_all
   end 
 
   def changeset(%User{} = user, attrs) do

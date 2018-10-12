@@ -7,6 +7,7 @@ defmodule Tanto.Account.UserProfile do
   schema "user_profiles" do
     field :name, :string
     field :email, :string
+    belongs_to :user, Tanto.Account.User
   end
 
   def changeset(%UserProfile{} = user_profile, attrs) do
