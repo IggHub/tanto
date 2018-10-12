@@ -4,5 +4,6 @@ defmodule Tanto.Content.Category do
   schema "categories" do
     field :name, :string
     field :description, :string
+    has_many :recipes, Tanto.Content.Recipe
   end
 end

@@ -1,7 +1,7 @@
 defmodule Tanto.Content.Recipe do
   use Ecto.Schema
   import Ecto.Changeset
-  alias Tanto.Content.{Recipe, Comment, CoverImage, Tag}
+  alias Tanto.Content.{Recipe, Comment, CoverImage, Tag, Category}
 
   schema "recipes" do
     field :title, :string
@@ -18,8 +18,8 @@ defmodule Tanto.Content.Recipe do
     has_many :recipe_translations, Tanto.Content.RecipeTranslation
     has_many :comments, Comment, on_delete: :delete_all
     has_one :cover_image, CoverImage 
-    # many_to_many :tags, Tag, join_through: "recipe_tagging"
-    many_to_many :tags, Tag
+    many_to_many :tags, Tag, join_through: "recipe_tagging"
+    belongs_to :category, Category
   
     timestamps()
   end
@@ -39,19 +39,13 @@ defmodule Tanto.Content.Recipe do
       end
     end)
     |> cast_assoc(:cover_image, required: true)
-    |> put_assoc(:tags, get_tags(attrs))
+    |> assoc_constraint(:category)
   end
 
   def ingredient_changeset(ingredient, attrs) do
     ingredient
     |> cast(attrs, [:name, :quantity])
     |> validate_required([:name, :quantity])
-  end
-
-  defp get_tags(attrs) do
-    Tag
-    |> where(name: ^attrs["tags"])
-    |> Repo.all
   end
 
   defp count_word(body) do
